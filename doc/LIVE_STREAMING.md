@@ -237,6 +237,95 @@ Example Response
 }
 ```
 
+## Get view of live feed
+This API use to get a live view status . This view only show when event has been started and being processing.
+
+See details [here](https://docs.uiza.io/#get-view-of-live-feed).
+
+```ruby
+require "uiza"
+
+Uiza.workspace_api_domain = "your-workspace-api-domain.uiza.co"
+Uiza.authorization = "your-authorization"
+
+begin
+  response = Uiza::Live.get_view "your-live-id"
+  puts response.stream_name
+  puts response.watchnow
+  puts response.day
+rescue Uiza::Error::UizaError => e
+  puts "description_link: #{e.description_link}"
+  puts "code: #{e.code}"
+  puts "message: #{e.message}"
+rescue StandardError => e
+  puts "message: #{e.message}"
+end
+```
+
+Example Response
+```
+{
+  "stream_name": "peppa-pig-english-episodes",
+  "watchnow": 1,
+  "day": 1533271205999
+}
+```
+
+## Stop a live feed
+Stop live event
+
+See details [here](https://docs.uiza.io/#stop-a-live-feed).
+
+```ruby
+require "uiza"
+Uiza.workspace_api_domain = "your-workspace-api-domain.uiza.co"
+Uiza.authorization = "your-authorization"
+params = {
+  id: "your-live-id",
+  name: "live test",
+  mode: "pull",
+  encode: 0,
+  dvr: 1
+  resourceMode: "single"
+}
+begin
+  live = Uiza::Live.stop_feed "your-live-id"
+  puts live.id
+  puts live.name
+rescue Uiza::Error::UizaError => e
+  puts "description_link: #{e.description_link}"
+  puts "code: #{e.code}"
+  puts "message: #{e.message}"
+rescue StandardError => e
+  puts "message: #{e.message}"
+end
+```
+
+Example Response
+```ruby
+{
+  "id": "8b83886e-9cc3-4eab-9258-ebb16c0c73de",
+  "name": "checking 01",
+  "description": "checking",
+  "mode": "pull",
+  "resourceMode": "single",
+  "encode": 0,
+  "channelName": "checking-01",
+  "lastPresetId": null,
+  "lastFeedId": null,
+  "poster": "https://example.com/poster.jpeg",
+  "thumbnail": "https://example.com/thumbnail.jpeg",
+  "linkPublishSocial": null,
+  "linkStream": "[\"https://www.youtube.com/watch?v=pQzaHPoNX1I\"]",
+  "lastPullInfo": null,
+  "lastPushInfo": null,
+  "lastProcess": null,
+  "eventType": null,
+  "createdAt": "2018-06-21T14:33:36.000Z",
+  "updatedAt": "2018-06-21T14:33:36.000Z"
+}
+```
+
 ## List all recorded files
 Retrieves list of recorded file after streamed (only available when your live event has turned on Record feature)
 
@@ -294,40 +383,6 @@ Example Response
   "createdAt": "2018-12-13T17:30:42.000Z",
   "updatedAt": "2018-12-13T17:30:42.000Z",
   "entityName": "WATCH: SpaceX to Launch Falcon 9 Rocket #Spaceflight CRS16 @1:16pm EST"
-}
-```
-
-## Get view of live feed
-This API use to get a live view status . This view only show when event has been started and being processing.
-
-See details [here](https://docs.uiza.io/#get-view-of-live-feed).
-
-```ruby
-require "uiza"
-
-Uiza.workspace_api_domain = "your-workspace-api-domain.uiza.co"
-Uiza.authorization = "your-authorization"
-
-begin
-  response = Uiza::Live.get_view "your-live-id"
-  puts response.stream_name
-  puts response.watchnow
-  puts response.day
-rescue Uiza::Error::UizaError => e
-  puts "description_link: #{e.description_link}"
-  puts "code: #{e.code}"
-  puts "message: #{e.message}"
-rescue StandardError => e
-  puts "message: #{e.message}"
-end
-```
-
-Example Response
-```
-{
-  "stream_name": "peppa-pig-english-episodes",
-  "watchnow": 1,
-  "day": 1533271205999
 }
 ```
 
